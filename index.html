@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>懂车网</title>
+    <script type="text/javascript" src='js/zepto.min.js'></script>
+    <!--rem-->
+    <script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+
+    <!-- touch事件 -->
+    <script type="text/javascript" src='js/zeptoTouch.js'></script>
+    <!-- 动画 -->
+    <script type="text/javascript" src='js/fx.js'></script>
+    <!-- 导入event -->
+    <link rel="stylesheet" href="css/reset.css">
+    <style>
+        img {
+            vertical-align: top;
+        }
+        .banner {
+            width: 6.4rem;
+            height: 3.2rem;
+            overflow: hidden;
+            position: relative;
+        }
+        .content img {
+            width: 6.4rem;
+            height: 3.2rem;
+        }
+        .content {
+            transform: translate(-6.4rem, 0);
+            width: 44.8rem;
+            position: absolute;
+            z-index: 0;
+        }
+
+        .content li {
+            float: left;
+        }
+
+        .buttons {
+            width: 1.4rem;
+            height: 0.14rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 0.16rem;
+            right: 0.19rem;
+        }
+
+        .buttons span {
+            width: 0.14rem;
+            height: 0.14rem;
+            margin-right: .14rem;
+            border-radius: 50%;
+            background: #fff;
+            display: block;
+            float: left;
+        }
+
+        .buttons .current {
+            background: #babbbd;
+        }
+        /* 内容样式开始 */
+        .container{
+            overflow: hidden;
+            padding: 0.64rem 0 1.14rem 0;
+            background: url(img/indexbg.jpg) no-repeat;
+            width:6.4rem;height: 6.403466666666rem;
+            background-size: 100% 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
+        }
+        .serverList{
+            color:#fff;
+            display: flex;
+            width: 4.7rem;
+            background: #33333380;
+            
+        }
+        h1{
+            font-size: 0.3rem;
+        }
+        p{
+            font-size: 0.15rem;
+        }
+        div img{
+            margin:0.03rem;
+            border: 0.03rem solid #c2c2c4;
+            border-radius: 0.03rem;
+            width: 2.2rem;
+            height: 1.14rem;
+        }
+        .flexl{
+            text-align:left;
+            justify-content: flex-end;
+        }
+        .flexl h1{
+            padding: 0.42rem 0.54rem 0.16rem 0.31rem;
+            width: 100%;
+        }
+        .flexl p{
+            padding-left: 0.62rem;
+        }
+        .flexr h1{
+            padding: 0.42rem 0 0.16rem  0.54rem;
+            width: 100%;
+        }
+        .flexr p{
+            padding-left: 0.72rem;
+        }
+        a:hover{
+            text-decoration: none;
+        }
+
+    </style>
+    <script>
+        
+        Zepto(function () {
+        if(window.innerHeight / window.innerWidth>667/375){
+            $(".container")[0].style.height=window.innerHeight-4.98/6.4*window.innerWidth +"px";
+        }
+            // 覆盖默认事件
+            $(".banner")[0].addEventListener('touchmove', function (event) {
+                event.preventDefault();
+            }, true);
+            // 改成捕获型之后banner 里面的span滑动也可以执行左右滑动事件
+            // true是捕获 false是冒泡
+            //因为引入了touch库所以不再需要自定义 //自定义tap
+            // $(document).on("touchstart", function (e) {
+            //     if (!$(e.target).hasClass("disable")) $(e.target).data("isMoved", 0);
+            // });
+            // $(document).on("touchmove", function (e) {
+            //     if (!$(e.target).hasClass("disable")) $(e.target).data("isMoved", 1);
+            // });
+            // $(document).on("touchend", function (e) {
+            //     if (!$(e.target).hasClass("disable") && $(e.target).data("isMoved") == 0) $(e.target).trigger("tap");
+            // });
+
+            //自动轮播
+            //获取必要的索引以及屏幕宽度。移动的div
+            var index = 1;
+            var timeId;
+            //ul移动的函数
+            function bannerMove() {
+                $(".content").animate({ "transform": "translate(" + index * $('.banner').width() * -1 + "px)" }, 300, "ease", function () {
+                    if (index >= 6) {
+                        index = 1;
+                        $('.content').css({ "transition": "none", "transform": "translate(" + index * $('.banner').width() * -1 + "px)" });
+                    } else {
+                        if (index <= 0) {
+                            index = 5;
+                            $('.content').css({ "transition": "none", "transform": "translate(" + index * $('.banner').width() * -1 + "px)" });
+                        }
+                    }
+                    //圆圈移动
+                    $('.buttons span').removeClass("current").eq(index - 1).addClass("current");
+
+                })
+            }
+            function autoMove() {
+                timeId = setInterval(function () {
+                    index++;
+                    bannerMove();
+                }, 3000);
+            }
+            //绑定左右滑动事件 
+            function leftRight() {
+                //防止抖动
+                clearInterval(timeId);
+                bannerMove();
+                autoMove();
+            }
+            $(".banner").on("swipeRight", function () {
+                index--;
+                leftRight();
+            })
+            $(".banner").swipeLeft(function () {
+                index++;
+                leftRight();
+            })
+            autoMove();
+            //圆圈点击事件
+            $('span').tap(function () {
+                $('.buttons span').removeClass("current");
+                $(this).addClass("current");
+                index = $(this).index() + 1;
+                clearInterval(timeId);
+                $('.content').css({ "transition": "none", "transform": "translate(" + index * $('.banner').width() * -1 + "px)" });
+                autoMove();
+            })
+        });
+    </script>
+</head>
+
+<body>
+    <nav class="banner">
+        <ul class="content">
+            <li><img src="img/index5.jpg" alt="" /></li>
+            <li><img src="img/index1.jpg" alt="" /></li>
+            <li><img src="img/index2.jpg" alt="" /></li>
+            <li><img src="img/index3.jpg" alt="" /></li>
+            <li><img src="img/index4.jpg" alt="" /></li>
+            <li><img src="img/index5.jpg" alt="" /></li>
+            <li><img src="img/index1.jpg" alt="" /></li>
+        </ul>
+        <div class="buttons">
+            <span class="current"></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+    <div class="container">
+        <a href="sc.html" class="serverList flexl">
+            <div class="leftL"><h1>二手车市场</h1>
+            <p>为您提供精品买卖平台</p></div>
+            <div class="leftR"><img src="img/index7.jpg" alt=""></div>
+        </a>
+        <a href="fw.html" class="serverList flexr">
+            <div class="reftL"><img src="img/index8.jpg" alt=""></div>
+            <div class="reftR"><h1>4S店服务</h1>
+            <p>让您的爱车倍感舒适</p></div>
+        </a>
+        <a href="jx.html" class="serverList flexl">
+            <div class="leftL"><h1>精品驾校</h1>
+            <p>快捷、高效、有保障</p></div>
+            <div class="leftR"><img src="img/index9.jpg" alt=""></div>
+        </a>
+        <a href="wy.html" class="serverList flexr">
+            <div class="reftL"><img src="img/index10.jpg" alt=""></div>
+            <div class="reftR"><h1>检车无忧</h1>
+            <p>安全、零风险、快捷</p></div>
+        </a>
+    </div>
+</body>
+
+</html>

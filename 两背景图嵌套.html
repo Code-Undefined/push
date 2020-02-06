@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <script src="js/zepto.min.js"></script>
+    <script src="js/zeptoTouch.js"></script>
+    <script src="js/event.js"></script>
+    <script src="js/fx.js"></script>
+    <script src="js/rem.js"></script>
+    <!-- 本站点rem 6.4布局 -->
+    <style>
+        div.bannerSelect {
+            overflow: hidden;
+            margin-right: 10px;
+            float: left;
+            border-radius: 100%;
+            background: url(img/indexbanner.png) -6px -27px, no-repeat;
+            width: 9px;
+            height: 9px;
+        }
+
+        div.active {
+            background: url(img/indexbanner.png)-6px -6px, no-repeat, url(img/indexbanner.png) -6px -27px no-repeat;
+        }
+    </style>
+    <!-- css3设置多张背景图片
+    css3设置多张背景图片，可以如下写：
+    
+    background:url("haoroomsCSS1_s.jpg") 0 0 no-repeat,
+    url("haoroomsCSS2_s.jpg") 200px 0 no-repeat,
+    url("haorooms.jpg") 400px 201px no-repeat;
+    也可以这么写：
+    
+    background-image:url("1.jpg"),url("2.jpg"),url("3.jpg");
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-position: 0 0, 200px 0, 400px 201px; -->
+</head>
+
+<body>
+    <div class="bannerSelect active"></div>
+    <div class="bannerSelect"></div>
+    <div class="bannerSelect"></div>
+    <div class="bannerSelect"></div>
+    <div class="bannerSelect"></div>
+</body>
+
+</html>

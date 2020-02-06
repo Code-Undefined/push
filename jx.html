@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>精品驾校</title>
+    <script type="text/javascript" src='js/zepto.min.js'></script>
+    <!--rem-->
+    <script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+
+    <!-- touch事件 -->
+    <script type="text/javascript" src='js/zeptoTouch.js'></script>
+    <!-- 动画 -->
+    <script type="text/javascript" src='js/fx.js'></script>
+    <!-- 导入event -->
+    <link rel="stylesheet" href="css/reset.css">
+    <style>
+        img {
+            vertical-align: top;
+        }
+
+        .banner {
+            width: 6.4rem;
+            height: 3.2rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .content img {
+            width: 6.4rem;
+            height: 3.2rem;
+        }
+
+        .content {
+            transform: translate(-6.4rem, 0);
+            width: 44.8rem;
+            position: absolute;
+            z-index: 0;
+        }
+
+        .content li {
+            float: left;
+        }
+
+        .buttons {
+            width: 1.9rem;
+            height: 0.16rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 0.16rem;
+            left: 50%;
+            transform: translateX(-48%);
+        }
+
+        .buttons span {
+            width: 0.12rem;
+            height: 0.12rem;
+            border: 2px solid #fff;
+            margin-right: .19rem;
+            border-radius: 50%;
+            background: #fff;
+            display: block;
+            float: left;
+        }
+
+        .buttons .current {
+            background: #babbbd;
+        }
+
+        /* 内容样式开始 */
+        .container {
+            overflow: hidden;
+            width: 6.4rem;
+            /* display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column; */
+        }
+
+        .body {
+            color: #656565;
+        }
+
+        .top {
+            color: #656565;
+            font-weight: bold;
+            text-align: center;
+            line-height: .88rem;
+            height: .88rem;
+            font-size: .44rem;
+            background: linear-gradient(to bottom, #e3e3e3, #a4a5a7);
+            /* background: linear-gradient(to right, #ffd000 , #ffbf00);; */
+        }
+
+        a {
+            font-weight: bold;
+            display: block;
+            color: #656565;
+            font-size: .32rem;
+        }
+
+        .nav li {
+            display: flex;
+            background: #cbd0d3;
+        }
+
+        .nav li a {
+            text-align: center;
+            flex: 1;
+            border-top: 1px solid #7d8588;
+            border-right: 1px solid #7d8588;
+            padding: .16rem 0 .13rem 0;
+        }
+
+        .border-right-none {
+            border-right: none !important;
+        }
+
+        .border-bottom {
+            border-bottom: 2px solid #b9bfbf;
+        }
+
+        .show {
+            display: flex;
+        }
+
+        .show img {
+            width: 3.2rem;
+        }
+
+        .title {
+            border-top: 2px solid #b1b6b9;
+            border-bottom: 2px solid #cecfd3;
+            background: linear-gradient(to bottom, #fcfcfc, #d2d5dc);
+            display: flex;
+            font-size: .32rem;
+            color: #656565;
+        }
+
+        .title .right {
+            padding-top: .2rem;
+            width: .8rem;
+            font-size: .22rem;
+            flex-grow: 0;
+        }
+
+        .title .left {
+            padding: .2rem 0 .14rem .2rem;
+            flex: 1;
+            width: 1.36rem;
+            flex-grow: 1;
+        }
+
+        .store {
+            font-size: 0;
+        }
+
+        .store img {
+            /* display:none; */
+            width: 2.27rem;
+            padding: .10rem 0.2rem 0.05rem .2rem;
+        }
+
+        .store-title {
+            color: #1867c4;
+            margin: .28rem 0 .2rem .1rem;
+            line-height: .22rem;
+            margin-top: .28rem;
+            font-size: .28rem;
+        }
+
+        .price {
+            color: #656565;
+            padding: 0 .2rem 0.16rem .1rem;
+            font-size: .25rem;
+        }
+
+        .property {
+            color: #656565;
+            font-size: .25rem;
+            padding: 0 .2rem 0 .1rem;
+        }
+
+        .store-right,
+        .store-left {
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        .store-right {
+            padding: .13rem 0 .1rem 0;
+        }
+
+        .footer {
+            padding: .1rem 0 0.08rem 0;
+            text-align: center;
+            font-size: .22rem;
+            color: #989898;
+        }
+
+        .message {
+            padding: .26rem 0 .08rem .4rem;
+            font-size: .28rem;
+            border-bottom: 0.03rem dotted #bfbfbf;
+        }
+
+        .message-last {
+            padding: .26rem 0 .08rem 0rem;
+            margin-left: .4rem;
+            border-bottom: none;
+        }
+        .message span{
+            display: block;
+            padding:.2rem .3rem 0  0;
+            text-align: right;
+            font-size: .20rem;
+        }
+        div.hr {
+            margin: .18rem .125rem 0 .125rem;
+            text-align: center;
+            border-bottom: .03rem solid #c0c0c0;
+        }
+    </style>
+    <script>
+
+        Zepto(function () {
+            if (window.innerHeight / window.innerWidth > 667 / 375) {
+                $(".container")[0].style.height = window.innerHeight - 4.98 / 6.4 * window.innerWidth + "px";
+            }
+            // 覆盖默认事件
+            $(".banner")[0].addEventListener('touchmove', function (event) {
+                event.preventDefault();
+            }, true);
+            // 改成捕获型之后banner 里面的span滑动也可以执行左右滑动事件
+            // true是捕获 false是冒泡
+            //因为引入了touch库所以不再需要自定义 //自定义tap
+            //自动轮播
+            //获取必要的索引以及屏幕宽度。移动的div
+            var index = 1;
+            var timeId;
+            //ul移动的函数
+            function bannerMove() {
+                $(".content").animate({ "transform": "translate(" + index * $('.banner').width() * -1 + "px)" }, 300, "ease", function () {
+                    if (index >= 6) {
+                        index = 1;
+                        $('.content').css({ "transition": "none", "transform": "translate(" + index * $('.banner').width() * -1 + "px)" });
+                    } else {
+                        if (index <= 0) {
+                            index = 5;
+                            $('.content').css({ "transition": "none", "transform": "translate(" + index * $('.banner').width() * -1 + "px)" });
+                        }
+                    }
+                    //圆圈移动
+                    $('.buttons span').removeClass("current").eq(index - 1).addClass("current");
+
+                })
+            }
+            function autoMove() {
+                timeId = setInterval(function () {
+                    index++;
+                    bannerMove();
+                }, 3000);
+            }
+            //绑定左右滑动事件 
+            function leftRight() {
+                //防止抖动
+                clearInterval(timeId);
+                bannerMove();
+                autoMove();
+            }
+            $(".banner").on("swipeRight", function () {
+                index--;
+                leftRight();
+            })
+            $(".banner").swipeLeft(function () {
+                index++;
+                leftRight();
+            })
+            autoMove();
+            //圆圈点击事件
+            $('span').tap(function () {
+                $('.buttons span').removeClass("current");
+                $(this).addClass("current");
+                index = $(this).index() + 1;
+                clearInterval(timeId);
+                $('.content').css({ "transition": "none", "transform": "translate(" + index * $('.banner').width() * -1 + "px)" });
+                autoMove();
+            })
+        });
+    </script>
+</head>
+
+<body>
+    <div class="top">
+        精品驾校
+    </div>
+    <div class="nav">
+        <ul>
+            <li><a href="index.html">首页</a>
+                <a href="">驾校查询</a>
+                <a href="" class="border-right-none">金牌教练</a></li>
+            <li class="border-bottom"><a href="">报名</a>
+                <a href="">学车指南</a>
+                <a href="" class="border-right-none">驾校动态</a></li>
+        </ul>
+
+    </div>
+    <!-- 轮播图开始 -->
+    <nav class="banner">
+        <ul class="content">
+            <li><img src="img/index5.jpg" alt="" /></li>
+            <li><img src="img/oCarbanner.jpg" alt="" /></li>
+            <li><img src="img/index2.jpg" alt="" /></li>
+            <li><img src="img/index3.jpg" alt="" /></li>
+            <li><img src="img/index4.jpg" alt="" /></li>
+            <li><img src="img/index5.jpg" alt="" /></li>
+            <li><img src="img/oCarbanner.jpg" alt="" /></li>
+        </ul>
+        <div class="buttons">
+            <span class="current"></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+    <!-- 轮播图结束 -->
+    <div class="show">
+        <div><img src="img/jxtop_01 (1).jpg" alt=""></div>
+        <div><span><img src="img/jxtop_02.jpg" alt=""></span><span><img src="img/jxtop_03.jpg" alt=""></span></div>
+    </div>
+    <div class="title">
+        <span class="left">合作驾校</span>
+        <span class="right">更多&gt;&gt;</span>
+    </div>
+    <div class="cyjx">
+        <div class="store">
+            <div class="store-left"><img src="img/jx1.png" alt=""></div>
+            <div class="store-right">
+                <p class="store-title">港城驾校</p><p class="price">地址：秦皇岛市河北大街西段</p><span
+                    class="property">电话：0310-3511234</span>
+            </div>
+        </div>
+        <div class="store">
+            <div class="store-left"><img src="img/jx2.png" alt=""></div>
+            <div class="store-right">
+                <p class="store-title">宏达驾校</p><p class="price">地址：秦皇岛市河北大街西段</p><span
+                    class="property">电话：0310-3511234</span>
+            </div>
+        </div>
+        <div class="store">
+            <div class="store-left"><img src="img/jx3.png" alt=""></div>
+            <div class="store-right">
+                <p class="store-title">通达驾校</p><p class="price">地址：秦皇岛市河北大街西段</p><span
+                    class="property">电话：0310-3511234</span>
+            </div>
+        </div>
+        <div class="store">
+            <div class="store-left"><img src="img/jx4.png" alt=""></div>
+            <div class="store-right">
+                <p class="store-title">港宏驾校</p><p class="price">地址：秦皇岛市河北大街西段</p><span
+                    class="property">电话：0310-3511234</span>
+            </div>
+        </div>
+    </div>
+    <div class="title">
+        <span class="left">驾校动态</span>
+        <span class="right">更多&gt;&gt;</span>
+    </div>
+    <div class="message">秦皇岛港城驾校，学车一步到位！<span>2015-04-21</span></div>
+    <div class="message">宏达驾校学车 学生享0首付分期付款！<span>2015-04-19</span></div>
+    <div class="hr"></div>
+    <div class="footer">Copyright &nbsp;&nbsp; 2015&nbsp; QHD二手车版权所有</div>
+    <div class="footer">意见反馈</div>
+
+</body>
+
+</html>
